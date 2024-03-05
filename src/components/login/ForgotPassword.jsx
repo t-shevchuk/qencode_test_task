@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import EmailInput from "../common/EmailInput";
 
 import { validateEmail } from "../../utils/validators";
+import { resetPassword } from "../../api/login.api";
 
 import "./Login.css";
 
@@ -29,9 +31,15 @@ const ForgotPassword = () => {
   const onSend = () => {
     if (isValidEmail) {
       // here should be api call to sent an email
-      setTimeout(() => {
-        navigate("/reset-password/imagine_that_here_is_token");
-      }, 1000);
+      resetPassword({ email })
+        // 401 should be handled here but we need to simulate this flow
+        .then(() => {
+          toast.success("Email is on your way!");
+          setTimeout(() => {
+            navigate("/reset-password/imagine_that_here_is_token");
+          }, 1000);
+        })
+        .catch((err) => console.error(err));
     } else {
       setShowErrors(true);
     }

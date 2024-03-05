@@ -1,33 +1,45 @@
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import PasswordInput, { MIN_PASSWORD_LENGTH } from "../common/PasswordInput";
 
+import { setPassword as updatePassword } from "../../api/login.api";
+
 import "./Login.css";
+import { toast } from "react-toastify";
+import { COMMON_ERROR } from "../../constants/common";
 
 const ResetPassword = () => {
+  const { token } = useParams();
+
   const navigate = useNavigate();
 
   // don't show any error until user try to submit
   const [canShowErrors, setCanShowErrors] = useState(false);
 
   const [password, setPassword] = useState("");
-  const [confirmedPassword, setConfirmedPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+
+  useEffect(() => {
+    // remove any sessions here
+    // check if provided token is correct
+    // otherwise navigate to login
+  }, []);
 
   const isValidPassword = useMemo(
     () => password?.length >= MIN_PASSWORD_LENGTH,
     [password]
   );
   const isValidConfirmedPassword = useMemo(
-    () => confirmedPassword?.length >= MIN_PASSWORD_LENGTH,
-    [confirmedPassword]
+    () => passwordConfirm?.length >= MIN_PASSWORD_LENGTH,
+    [passwordConfirm]
   );
   const arePasswordsDifferent = useMemo(
     () =>
       isValidConfirmedPassword &&
       isValidPassword &&
-      password !== confirmedPassword,
-    [confirmedPassword, isValidConfirmedPassword, isValidPassword, password]
+      password !== passwordConfirm,
+    [passwordConfirm, isValidConfirmedPassword, isValidPassword, password]
   );
 
   const onReset = () => {
@@ -36,12 +48,20 @@ const ResetPassword = () => {
     if (
       isValidPassword &&
       isValidConfirmedPassword &&
-      password === confirmedPassword
+      password === passwordConfirm
     ) {
-      // here should be api call to update password
-      setTimeout(() => {
-        navigate("/login");
-      }, 500);
+      updatePassword({ token, password, passwordConfirm })
+        .then((res) => {
+          if (!res.error) {
+            toast.success("Password updated");
+            setTimeout(() => {
+              navigate("/login");
+            }, 500);
+          }
+
+          toast.error(COMMON_ERROR);
+        })
+        .catch((e) => console.error(e));
     }
   };
 
@@ -60,7 +80,7 @@ const ResetPassword = () => {
           Confirm Password
         </div>
         <PasswordInput
-          onPasswordChange={setConfirmedPassword}
+          onPasswordChange={setPasswordConfirm}
           className="fill-width"
           showError={canShowErrors && !isValidConfirmedPassword}
         />

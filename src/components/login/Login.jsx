@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import EmailInput from "../common/EmailInput";
@@ -9,6 +9,9 @@ import GithubLogin from "./GithubLogin";
 import { validateEmail } from "../../utils/validators";
 
 import "./Login.css";
+import { loginUser } from "../../api/login.api";
+import { toast } from "react-toastify";
+import { COMMON_ERROR } from "../../constants/common";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -24,12 +27,26 @@ const Login = () => {
     [password]
   );
 
+  useEffect(() => {
+    //remove any sessions here
+  }, []);
+
   const onLoginWithEmail = () => {
     if (isValidEmail && isValidPassword) {
-      // success
-      // api call
-      navigate("/discover");
+      loginUser({ email, password })
+        .then((res) => {
+          if (!res?.error) {
+            navigate("/discover");
+          }
+
+          toast.error(COMMON_ERROR);
+        })
+        .catch((e) => {
+          toast.error(COMMON_ERROR);
+          console.error(e);
+        });
     } else {
+      // if there is wrong data provided than just show errors
       setCanShowErrors(true);
     }
   };

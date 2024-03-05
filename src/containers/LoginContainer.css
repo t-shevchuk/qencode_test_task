@@ -1,0 +1,19 @@
+.wrapper {
+    gap: 30px;
+}
+
+.content-wrapper {
+    max-width: 400px;
+}
+
+@media screen and (max-width: 430px) {
+    .content-wrapper {
+        width: calc(100% - 16px) !important;
+    }
+   
+}
+
+.logo {
+    height: 32px;
+    margin-bottom: 60px;
+}
