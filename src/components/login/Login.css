@@ -1,0 +1,29 @@
+.login-wrapper {
+    max-width: 400px;
+    width: 100%;
+    gap: 20px;
+}
+
+.divider {
+    display: flex;
+    flex-direction: row;
+    color: #BEC5CC;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.divider:before, .divider:after{
+    content: "";
+    flex: 1 1;
+    border-bottom: 1px solid;
+    margin: auto;
+    color: #E3E6E9;
+}
+
+.divider:before {
+    margin-right: 10px
+}
+
+.divider:after {
+    margin-left: 10px
+}

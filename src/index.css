@@ -1,10 +1,45 @@
+body {
+  height: 100dvh;
+  margin: 0;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
   font-weight: 400;
+  font-size: 14px;
+
+  --blue: #316FEA;
+  --white: #fff;
+  --placeholder-color: #D3D8DC;
 }
 
 a {
-  color: #316FEA;
+  font-size: 14px;
+  color: var(--blue);
+  cursor: pointer;
+}
+
+button,
+input {
+  height: 48px;
+  padding: 0px 12px;
+  border-radius: 6px;
+  border: 1.2px solid var(--placeholder-color);
+  background: var(--white);
+  outline: none;
+}
+
+input::placeholder {
+  color: var(--placeholder-color);
+  font-size: 15px;
+  line-height: 20px;
+}
+
+
+button {
+  cursor: pointer;
+  padding: 0 20px;
+  font-weight: 500;
+  font-size: 16px;
 }
 
