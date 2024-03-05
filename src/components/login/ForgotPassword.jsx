@@ -30,7 +30,7 @@ const ForgotPassword = () => {
     if (isValidEmail) {
       // here should be api call to sent an email
       setTimeout(() => {
-        navigate("/reset-password");
+        navigate("/reset-password/imagine_that_here_is_token");
       }, 1000);
     } else {
       setShowErrors(true);

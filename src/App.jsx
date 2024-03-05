@@ -28,7 +28,7 @@ function App() {
           }
         />
         <Route
-          path="/reset-password"
+          path="/reset-password/:token"
           element={
             <LoginContainer title="Create new Password?">
               <ResetPassword />
