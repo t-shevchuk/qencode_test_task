@@ -8,21 +8,21 @@ import { validateEmail } from "../../utils/validators";
 import { resetPassword } from "../../api/login.api";
 
 import "./Login.css";
+import { COMMON_ERROR } from "../../constants/common";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
 
-  const [showErrors, setShowErrors] = useState(false);
-
+  const [canShowErrors, setCanShowErrors] = useState(false);
   const [email, setEmail] = useState("");
 
   const isValidEmail = useMemo(() => validateEmail(email), [email]);
 
   useEffect(() => {
-    if (showErrors && isValidEmail) {
-      setShowErrors(false);
+    if (canShowErrors && isValidEmail) {
+      setCanShowErrors(false);
     }
-  }, [showErrors, isValidEmail]);
+  }, [canShowErrors, isValidEmail]);
 
   const onEmailChange = (email) => {
     setEmail(email);
@@ -35,13 +35,19 @@ const ForgotPassword = () => {
         // 401 should be handled here but we need to simulate this flow
         .then(() => {
           toast.success("Email is on your way!");
+
+          // just simulation
           setTimeout(() => {
             navigate("/reset-password/imagine_that_here_is_token");
           }, 1000);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          toast.error(COMMON_ERROR);
+          console.error(err);
+        });
     } else {
-      setShowErrors(true);
+      // just show input validation error
+      setCanShowErrors(true);
     }
   };
 
@@ -54,7 +60,7 @@ const ForgotPassword = () => {
       <EmailInput
         onEmailChange={onEmailChange}
         className="fill-width"
-        showError={showErrors}
+        showError={canShowErrors}
       />
 
       <button className="primary-btn" onClick={onSend}>

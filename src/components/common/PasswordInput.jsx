@@ -21,7 +21,7 @@ const PasswordInput = ({
   const navigate = useNavigate();
 
   const [password, setPassword] = useState("");
-  const [type, setType] = useState(TYPE_PASSWORD);
+  const [inputType, setInputType] = useState(TYPE_PASSWORD);
 
   const handleChange = (e) => {
     const { value } = e.target;
@@ -31,7 +31,7 @@ const PasswordInput = ({
   };
 
   const handleTypeChange = () => {
-    setType(type === TYPE_PASSWORD ? TYPE_TEXT : TYPE_PASSWORD);
+    setInputType(inputType === TYPE_PASSWORD ? TYPE_TEXT : TYPE_PASSWORD);
   };
 
   const onForgotPassword = () => {
@@ -44,14 +44,14 @@ const PasswordInput = ({
         <div className="password-wrapper flex flex-1">
           <input
             className="fill-width"
-            type={type}
+            type={inputType}
             placeholder={placeholder}
             onChange={handleChange}
             value={password}
             minLength={MIN_PASSWORD_LENGTH}
           />
           <span className="password-icon" onClick={handleTypeChange}>
-            {type === TYPE_PASSWORD ? (
+            {inputType === TYPE_PASSWORD ? (
               <img src={eyeIcon} alt="Show password" />
             ) : (
               <img

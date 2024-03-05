@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import PasswordInput, { MIN_PASSWORD_LENGTH } from "../common/PasswordInput";
+import { COMMON_ERROR } from "../../constants/common";
 
 import { setPassword as updatePassword } from "../../api/login.api";
 
 import "./Login.css";
-import { toast } from "react-toastify";
-import { COMMON_ERROR } from "../../constants/common";
 
 const ResetPassword = () => {
   const { token } = useParams();
